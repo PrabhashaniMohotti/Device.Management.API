@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Device.Management.API.DataAccess.DTOs;
+using Device.Management.API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Device.Management.API.Controllers
 {
@@ -6,10 +8,25 @@ namespace Device.Management.API.Controllers
     [Route("[controller]")]
     public class DeviceController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult Get()
+        private readonly DeviceService _deviceService;
+
+        public DeviceController(DeviceService deviceService)
         {
-            return Ok("Success");
+            _deviceService = deviceService;
+        }
+
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreateDevice(DeviceViewModel deviceViewModel)
+        {
+            var deviceDto = new DeviceDTO
+            {
+                Name = deviceViewModel.Name,
+                Brand = deviceViewModel.Brand,
+                State = (DeviceState)deviceViewModel.State
+            };
+
+            var createdDeviceResponce = await _deviceService.CreateDeviceAsync(deviceDto);
+            return Ok(createdDeviceResponce);
         }
     }
 }

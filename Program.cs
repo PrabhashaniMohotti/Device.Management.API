@@ -1,4 +1,7 @@
+using Device.Management.API;
+using Device.Management.API.DataAccess;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +18,12 @@ builder.Services.AddSwaggerGen(c =>
         Description = "REST API for managing devices"
     });
 });
+
+builder.Services.AddDbContext<DevicesDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+builder.Services.AddScoped<DeviceService>();
 
 var app = builder.Build();
 
