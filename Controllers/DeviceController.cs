@@ -17,7 +17,7 @@ namespace Device.Management.API.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> CreateDevice(CreateDeviceModel createDeviceModel)
+        public async Task<IActionResult> CreateDevice(CreateUpdateDeviceModel createDeviceModel)
         {
             var deviceDto = new DeviceDTO
             {
@@ -30,12 +30,12 @@ namespace Device.Management.API.Controllers
             return Ok(createdDeviceResponce);
         }
 
-        [HttpPost("Update")]
-        public async Task<IActionResult> UpdateDevice(UpdateDeviceModel updateDeviceModel)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateDevice(int id, CreateUpdateDeviceModel updateDeviceModel)
         {
             var deviceDto = new DeviceDTO
             {
-                Id = updateDeviceModel.Id,
+                Id = id,
                 Name = updateDeviceModel.Name,
                 Brand = updateDeviceModel.Brand,
                 State = (DeviceState)updateDeviceModel.State
