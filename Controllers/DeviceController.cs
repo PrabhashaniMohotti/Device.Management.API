@@ -16,6 +16,11 @@ namespace Device.Management.API.Controllers
             _deviceService = deviceService;
         }
 
+        /// <summary>
+        /// Creates a new device
+        /// </summary>
+        /// <param name="createDeviceModel"></param>
+        /// <returns>Id of the created device</returns>
         [HttpPost("Create")]
         public async Task<IActionResult> CreateDevice(CreateUpdateDeviceModel createDeviceModel)
         {
@@ -30,6 +35,12 @@ namespace Device.Management.API.Controllers
             return Ok(createdDeviceResponce);
         }
 
+        /// <summary>
+        /// Update an existing device
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updateDeviceModel"></param>
+        /// <returns>Returns updated device model</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDevice(int id, CreateUpdateDeviceModel updateDeviceModel)
         {
@@ -49,6 +60,11 @@ namespace Device.Management.API.Controllers
             return Ok(updateResponce);
         }
 
+        /// <summary>
+        /// Gets a device by its Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Device details</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDeviceById(int id)
         {
@@ -59,6 +75,10 @@ namespace Device.Management.API.Controllers
             return Ok(device);
         }
 
+        /// <summary>
+        /// Get all devices
+        /// </summary>
+        /// <returns>All the device detais</returns>
         [HttpGet("All")]
         public async Task<IActionResult> GetAllDevices()
         {
@@ -67,6 +87,11 @@ namespace Device.Management.API.Controllers
             return Ok(devices);
         }
 
+        /// <summary>
+        /// get all devices by brand
+        /// </summary>
+        /// <param name="brand"></param>
+        /// <returns>All the device details as a list</returns>
         [HttpGet("ByBrand/{brand}")]
         public async Task<IActionResult> GetDevicesByBrand(string brand)
         {
@@ -74,6 +99,11 @@ namespace Device.Management.API.Controllers
             return Ok(devices);
         }
 
+        /// <summary>
+        /// get all devices by state
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns>All the device details as a list</returns>
         [HttpGet("ByState/{state}")]
         public async Task<IActionResult> GetDevicesByState(int state)
         {
@@ -81,6 +111,11 @@ namespace Device.Management.API.Controllers
             return Ok(devices);
         }
 
+        /// <summary>
+        /// Deletes a device by its Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDevice(int id)
         {
