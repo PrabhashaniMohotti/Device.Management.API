@@ -1,5 +1,6 @@
 ﻿using Device.Management.API.DataAccess.DTOs;
 using Device.Management.API.Models;
+using Device.Management.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Device.Management.API.Controllers
@@ -16,17 +17,32 @@ namespace Device.Management.API.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> CreateDevice(DeviceViewModel deviceViewModel)
+        public async Task<IActionResult> CreateDevice(CreateDeviceModel createDeviceModel)
         {
             var deviceDto = new DeviceDTO
             {
-                Name = deviceViewModel.Name,
-                Brand = deviceViewModel.Brand,
-                State = (DeviceState)deviceViewModel.State
+                Name = createDeviceModel.Name,
+                Brand = createDeviceModel.Brand,
+                State = (DeviceState)createDeviceModel.State
             };
 
             var createdDeviceResponce = await _deviceService.CreateDeviceAsync(deviceDto);
             return Ok(createdDeviceResponce);
+        }
+
+        [HttpPost("Update")]
+        public async Task<IActionResult> UpdateDevice(UpdateDeviceModel updateDeviceModel)
+        {
+            var deviceDto = new DeviceDTO
+            {
+                Id = updateDeviceModel.Id,
+                Name = updateDeviceModel.Name,
+                Brand = updateDeviceModel.Brand,
+                State = (DeviceState)updateDeviceModel.State
+            };
+
+            var updateResponce = await _deviceService.UpdateDeviceAsync(deviceDto);
+            return Ok(updateResponce);
         }
     }
 }

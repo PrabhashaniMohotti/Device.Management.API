@@ -2,6 +2,7 @@ using Device.Management.API;
 using Device.Management.API.DataAccess;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Device.Management.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

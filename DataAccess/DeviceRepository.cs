@@ -26,5 +26,16 @@ namespace Device.Management.API.DataAccess
             await _context.SaveChangesAsync();
             return device.id;
         }
+
+        public async Task<DeviceEntity?> GetDeviceById(int id)
+        {
+            return await _context.Device.FindAsync(id);
+        }
+
+        public async Task UpdateDeviceAsync(DeviceEntity device)
+        {
+            //_context.Device.Update(device);
+            await _context.SaveChangesAsync();
+        }
     }
 }
