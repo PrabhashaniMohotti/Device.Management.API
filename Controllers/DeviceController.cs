@@ -42,7 +42,50 @@ namespace Device.Management.API.Controllers
             };
 
             var updateResponce = await _deviceService.UpdateDeviceAsync(deviceDto);
+
+            if (updateResponce == null)
+                return NotFound();
+
             return Ok(updateResponce);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetDeviceById(int id)
+        {
+            var device = await _deviceService.GetDeviceByIdAsync(id);
+            if (device == null)
+                return NotFound();
+
+            return Ok(device);
+        }
+
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAllDevices()
+        {
+            var devices = await _deviceService.GetAllDevicesAsync();
+
+            return Ok(devices);
+        }
+
+        [HttpGet("ByBrand/{brand}")]
+        public async Task<IActionResult> GetDevicesByBrand(string brand)
+        {
+            var devices = await _deviceService.GetDevicesByBrandAsync(brand);
+            return Ok(devices);
+        }
+
+        [HttpGet("ByState/{state}")]
+        public async Task<IActionResult> GetDevicesByState(int state)
+        {
+            var devices = await _deviceService.GetDevicesByStateAsync((DeviceState)state);
+            return Ok(devices);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDevice(int id)
+        {
+            await _deviceService.DeleteDeviceAsync(id);
+            return NoContent();
         }
     }
 }

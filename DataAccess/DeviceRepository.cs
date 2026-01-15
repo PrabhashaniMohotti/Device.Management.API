@@ -1,5 +1,7 @@
 ﻿using Device.Management.API.DataAccess.DTOs;
 using Device.Management.API.DataAccess.Entities;
+using Device.Management.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Device.Management.API.DataAccess
 {
@@ -34,8 +36,58 @@ namespace Device.Management.API.DataAccess
 
         public async Task UpdateDeviceAsync(DeviceEntity device)
         {
-            //_context.Device.Update(device);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<DeviceDTO>> GetAllDevicesAsync()
+        {
+            return await _context.Device
+                .Select(device => new DeviceDTO
+                {
+                    Id = device.id,
+                    Name = device.name,
+                    Brand = device.brand,
+                    State = (DeviceState)device.state,
+                    CreatedAt = device.created_at
+                }).ToListAsync();
+        }
+
+        public async Task<List<DeviceDTO>> GetDevicesByBrandAsync(string brand)
+        {
+            return await _context.Device
+                .Where(device => device.brand == brand)
+                .Select(device => new DeviceDTO
+                {
+                    Id = device.id,
+                    Name = device.name,
+                    Brand = device.brand,
+                    State = (DeviceState)device.state,
+                    CreatedAt = device.created_at
+                }).ToListAsync();
+        }
+
+        public async Task<List<DeviceDTO>> GetDevicesByStateAsync(DeviceState state)
+        {
+            return await _context.Device
+                .Where(device => device.state == (int)state)
+                .Select(device => new DeviceDTO
+                {
+                    Id = device.id,
+                    Name = device.name,
+                    Brand = device.brand,
+                    State = (DeviceState)device.state,
+                    CreatedAt = device.created_at
+                }).ToListAsync();
+        }
+
+        public async Task DeleteDeviceAsync(int id)
+        {
+            var device = await _context.Device.FindAsync(id);
+            if (device != null)
+            {
+                _context.Device.Remove(device);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
